@@ -1,23 +1,23 @@
-# 1. Build Stage
-FROM node:18-alpine AS builder
-
+# Builder
+FROM node:18 AS builder
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install --production=false
+RUN npm install
 
 COPY . .
 RUN npm run build
 
-# 2. Runtime Stage
-FROM node:18-alpine AS runner
-
+# Runtime
+FROM node:18-alpine
 WORKDIR /app
-
-ENV NODE_ENV=production
-ENV PORT=3000
-EXPOSE 3000
 
 COPY --from=builder /app ./
 
+ENV NODE_ENV=production
+ENV PORT=3000
+
+EXPOSE 3000
+
+# Azure injects SESSION_SECRET into env at runtime
 CMD ["npm", "start"]
