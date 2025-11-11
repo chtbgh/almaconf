@@ -15,9 +15,9 @@ WORKDIR /app
 COPY --from=builder /app ./
 
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=8787
 
-EXPOSE 3000
+EXPOSE 8787
 
 # Azure injects SESSION_SECRET into env at runtime
 CMD ["npm", "start"]
