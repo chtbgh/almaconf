@@ -19,5 +19,4 @@ ENV PORT=8787
 
 EXPOSE 8787
 
-# Azure injects SESSION_SECRET into env at runtime
 CMD ["npm", "start"]
