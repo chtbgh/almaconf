@@ -1,12 +1,23 @@
-# Builder
-FROM node:16.17.0 as builder
-WORKDIR /src
-COPY . /src
+# 1. Build Stage
+FROM node:18-alpine AS builder
 
-# App
-RUN cd /src
-RUN npm install
-RUN echo "SESSION_SECRET=abc123" > .env
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install --production=false
+
+COPY . .
 RUN npm run build
 
-CMD npm start
+# 2. Runtime Stage
+FROM node:18-alpine AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PORT=3000
+EXPOSE 3000
+
+COPY --from=builder /app ./
+
+CMD ["npm", "start"]
