@@ -24,8 +24,7 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/chtbgh/almaconf/almaconf:latest
-          build-args: |
-            SESSION_SECRET=${{ secrets.SESSION_SECRET }}
+          build-args: SESSION_SECRET=${{ secrets.SESSION_SECRET }}
 
   restart-azure:
     needs: build-and-push
